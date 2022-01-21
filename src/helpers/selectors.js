@@ -20,6 +20,7 @@ export function getAppointmentsForDay(state, day) {
       appointmentArray.push(state.appointments[appointmentNumber]);
     }
     
+    // console.log(appointmentArray);
     // [{
     //   id: 1,
     //   interview: null,
@@ -44,5 +45,20 @@ export function getAppointmentsForDay(state, day) {
     return appointmentArray;
 
   }
+
+}
+
+export function getInterview(state, interview) {
+  //...  return a new object containing the interview data when we pass it an object that contains the interviewer
+  
+  if (!interview) {
+    return null;
+  }
+
+  const id = interview.interviewer;
+  const student = interview.student;
+  const interviewer = state.interviewers[id];
+
+  return { student, interviewer};
 
 }
