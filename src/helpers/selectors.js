@@ -62,3 +62,27 @@ export function getInterview(state, interview) {
   return { student, interviewer};
 
 }
+
+export function getInterviewersForDay(state, day) {
+  //... returns an array of interviewers for that day
+  const filteredDay = state.days.filter(
+    stateDay => stateDay.name === day
+  );
+
+  const interviewersArray = [];
+
+  if (filteredDay && filteredDay.length > 0) {
+
+    for (let appointmentNumber of filteredDay[0].interviewers) {
+      interviewersArray.push(state.interviewers[appointmentNumber]);
+    }
+
+    return interviewersArray;
+
+  } else {
+
+    return interviewersArray;
+
+  }
+
+}

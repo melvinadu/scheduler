@@ -8,7 +8,7 @@ import DayList from "./DayList";
 import "components/Appointment"
 import Appointment from "components/Appointment";
 
-const { getAppointmentsForDay, getInterview} = require("../helpers/selectors")
+const { getAppointmentsForDay, getInterview, getInterviewersForDay} = require("../helpers/selectors")
 
 export default function Application(props) {
 
@@ -25,10 +25,6 @@ export default function Application(props) {
   //state management days variable
   const setDays = (days) => setState(prev => ({ ...prev, days }));
 
-  //state management appointments variable
-  let dailyAppointments = [];
-  dailyAppointments = getAppointmentsForDay(state, state.day);
-
   //axios GET request to API with server with data
   useEffect(() => {
     Promise.all([
@@ -38,9 +34,9 @@ export default function Application(props) {
     ]).then((all) => {
       const [days, appointments, interviewers] = all;
 
-      console.log(days.data);
-      console.log(appointments.data);
-      console.log(interviewers.data);
+      // console.log(days.data);
+      // console.log(appointments.data);
+      // console.log(interviewers.data);
 
       setState(prev => ({...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
 
@@ -48,10 +44,14 @@ export default function Application(props) {
 
   },[])
 
+  //state management appointments variable
+  let dailyAppointments = [];
+  dailyAppointments = getAppointmentsForDay(state, state.day);
+
   //mapping appointment Component into an array
   const appointmentArray = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-
+    const interviewers = getInterviewersForDay(state, state.day);
 
     return (
     <Appointment 
@@ -59,6 +59,7 @@ export default function Application(props) {
       id={appointment.id}
       time={appointment.time}
       interview={interview}
+      interviewers={interviewers}
     />
 
     // <Appointment key={appointment.id} {...appointment} />

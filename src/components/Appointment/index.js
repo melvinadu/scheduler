@@ -34,7 +34,7 @@ export default function Appointment(props){
 
         { mode === CREATE && 
         <Form 
-          interviewers={[]}
+          interviewers={props.interviewers}
           onCancel={() => back()} //if cancel button on Form component is clicked, call back function which transitions back to condition where mode === EMPTY
         /> }
         
