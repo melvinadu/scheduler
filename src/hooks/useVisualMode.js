@@ -10,8 +10,8 @@ export default function useVisualMode(initial) {
         history[history.length - 1] = mode;
       } else {
         setMode(mode);
-        // setHistory(prev => ([...prev, mode])); //alternative way to push new mode to history
-        history.push(mode);
+        setHistory(prev => ([...prev, mode])); 
+        // history.push(mode); //alternative way to push new mode to history
       }
     }
 
