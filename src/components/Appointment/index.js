@@ -16,6 +16,21 @@ export default function Appointment(props){
     props.interview ? SHOW : EMPTY //pass initial value and set initial state of mode variable in useVisualMode custom hook based on whether props.interview variable is true or false
   );
   
+  function save(name, interviewer){
+    const interview = {
+      student: name,
+      interviewer
+    };
+
+    props.bookInterview(props.id, interview)
+    // .then(() => {
+      transition(SHOW);
+    // })
+   
+
+  }
+
+  
 
   return (
     <article className="appointment">
@@ -29,13 +44,14 @@ export default function Appointment(props){
         { mode === SHOW && 
         <Show 
           student={props.interview.student} 
-          name={props.interview.interviewer.name} 
+          interviewer={props.interview.interviewer} 
         /> }
 
         { mode === CREATE && 
         <Form 
           interviewers={props.interviewers}
           onCancel={() => back()} //if cancel button on Form component is clicked, call back function which transitions back to condition where mode === EMPTY
+          onSave={save}
         /> }
         
     </article>
