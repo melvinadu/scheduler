@@ -6,12 +6,16 @@ import Empty from "./Empty";
 import useVisualMode from 'hooks/useVisualMode';
 import Form from './Form';
 import Status from './Status';
+import Confirm from './Confirm';
 
 export default function Appointment(props){
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
+  const DELETING = "DELETING";
+  const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
 
   // bring mode, transition and back properties of useVisualMode into component
   const { mode, transition, back } = useVisualMode(
@@ -31,11 +35,26 @@ export default function Appointment(props){
       .then(() => {
         transition(SHOW);
       })
-   
   }
 
-  
+  function destroy(){
+    //show deleting status before cancelling interview and showing confirmation
+    transition(DELETING);
 
+    props.cancelInterview(props.id)
+      .then(() => {
+        transition(EMPTY);
+      })
+  }
+
+  function confirm(){
+    transition(CONFIRM);
+  }
+
+  function edit() {
+    transition(EDIT);
+  }
+  console.log(">>>>>>:", props);
   return (
     <article className="appointment">
         <Header time={props.time}/>
@@ -50,11 +69,36 @@ export default function Appointment(props){
           message="Saving..."
         />}
 
+        {mode === DELETING &&
+        <Status 
+          message="Deleting..."
+        />}
+
+        {mode === EDIT && 
+          <Form 
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+          
+          interviewers={props.interviewers}
+          onCancel={() => back()} //if cancel button on Form component is clicked, call back function which transitions back to condition where mode === EMPTY
+          onSave={save}
+        />
+        }
+
         { mode === SHOW && 
         <Show 
           student={props.interview.student} 
           interviewer={props.interview.interviewer} 
+          onDelete={confirm}
+          onEdit={edit}
         /> }
+
+        {mode === CONFIRM &&
+        <Confirm 
+          onCancel={() => back()}
+          onConfirm={destroy}
+          message="Are you sure you want to delete this appointment?"
+        />}
 
         { mode === CREATE && 
         <Form 
