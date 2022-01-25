@@ -23,9 +23,9 @@ export default function Appointment(props){
     };
 
     props.bookInterview(props.id, interview)
-      // .then(() => {
+      .then(() => {
         transition(SHOW);
-      // })
+      })
    
   }
 
