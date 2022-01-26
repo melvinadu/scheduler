@@ -16,26 +16,6 @@ export default function useApplicationData() {
   //state management days variable
   // const setDays = (days) => setState(prev => ({ ...prev, days }));
 
-  //axios GET request to API with server with data
-  useEffect(() => {
-    Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers"),
-    ]).then((all) => {
-      const [days, appointments, interviewers] = all;
-
-      // console.log(days.data);
-      // console.log(appointments.data);
-      // console.log(interviewers.data);
-
-      setState(prev => ({...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
-
-    })
-
-  },[])
-
-
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -77,6 +57,27 @@ export default function useApplicationData() {
         });
       })
   }
+
+  //axios GET requests to API to get data from server
+  useEffect(() => {
+    Promise.all([
+      axios.get("http://localhost:8001/api/days"),
+      axios.get("http://localhost:8001/api/appointments"),
+      axios.get("http://localhost:8001/api/interviewers"),
+    ]).then((all) => {
+      const [days, appointments, interviewers] = all;
+
+      // console.log(days.data);
+      // console.log(appointments.data);
+      // console.log(interviewers.data);
+
+      setState(prev => ({...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
+
+    })
+
+  },[])
+
+  // console.log("<<<<<<<:", state);
 
   return { state, setDay, bookInterview, cancelInterview };
 }
