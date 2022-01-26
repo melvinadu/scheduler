@@ -87,23 +87,18 @@ export default function Application(props) {
       })
   }
 
-  //state management appointments variable
-  let dailyAppointments = [];
-  dailyAppointments = getAppointmentsForDay(state, state.day);
-
   const interviewers = getInterviewersForDay(state, state.day);
 
 
   //mapping appointment Component into an array
-  const appointmentArray = dailyAppointments.map(appointment => {
-    const interview = getInterview(state, appointment.interview);
+  const appointmentArray = getAppointmentsForDay(state, state.day).map(appointment => {
     
     return (
     <Appointment 
       key={appointment.id}
       id={appointment.id}
       time={appointment.time}
-      interview={interview}
+      interview={getInterview(state, appointment.interview)}
       interviewers={interviewers}
       bookInterview={bookInterview}
       cancelInterview={cancelInterview}
