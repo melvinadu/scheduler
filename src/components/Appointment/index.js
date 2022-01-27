@@ -63,7 +63,7 @@ export default function Appointment(props){
   function edit() {
     transition(EDIT);
   }
-  console.log(">>>>>>:", props);
+  
   return (
     <article className="appointment">
         <Header time={props.time}/>

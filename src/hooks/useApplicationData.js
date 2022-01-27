@@ -46,7 +46,6 @@ export default function useApplicationData() {
 
     const spots = getSpotsForDay(state);
     const newDay = {...dayObj, spots}
-    console.log("spots", spots)
   
     const newDays = state.days.map(day => {
       if(day.id === newDay.id) {
@@ -76,7 +75,6 @@ export default function useApplicationData() {
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then((res) => {
-        console.log(">>>>>>>:", res)
         setState({
           ...state,
           appointments,
