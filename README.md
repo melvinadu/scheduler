@@ -23,6 +23,6 @@ npm run storybook
 ```
 ## Screenshots
 
-!["screenshot of application in use"](https://github.com/melvinadu/scheduler/blob/master/.storybook/docs/scheduler-screenshot-2.png)
+!["screenshot of application in use"](https://github.com/melvinadu/scheduler/blob/master/docs/scheduler-screenshot-2.png)
 
-!["second screenshot of application in use"](https://github.com/melvinadu/scheduler/blob/master/.storybook/docs/scheduler-screenshot.png)
+!["second screenshot of application in use"](https://github.com/melvinadu/scheduler/blob/master/docs/scheduler-screenshot.png)
