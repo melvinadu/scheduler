@@ -16,6 +16,51 @@ export default function useApplicationData() {
   //state management days variable
   // const setDays = (days) => setState(prev => ({ ...prev, days }));
 
+  // const appointment = appointments[id];
+  // const getSpotsForDay = function (day, appointment){
+  //   let spots = 0;
+  //   for(const id of dayObj.appointments){
+  //     if(!appointment.interview){
+  //       spots++;
+  //     }
+  //   }
+  //   return spots;
+  // }
+
+  //get the day object
+  const dayObj = state.days.find(day => day.name === state.day)
+
+  const getSpotsForDay = function (state){
+    let spots = 0;
+    //iterate the days appt id
+    for(const id of dayObj.appointments){
+      const appObj = state.appointments[id];
+      if(!appObj.interview){
+        spots++;
+      }
+    }
+    return spots;
+  }
+
+  function updateSpots(state, id) {
+
+    const spots = getSpotsForDay(state);
+    const newDay = {...dayObj, spots}
+    console.log("spots", spots)
+  
+    const newDays = state.days.map(day => {
+      if(day.id === newDay.id) {
+        return newDay;
+      }else {
+        return day;
+      }
+    })
+
+    return newDays;
+
+  }
+
+
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -27,12 +72,15 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    const updatedDay = updateSpots({ ...state, appointments }, id);
+
     return axios.put(`/api/appointments/${id}`, { interview })
       .then((res) => {
         console.log(">>>>>>>:", res)
         setState({
           ...state,
-          appointments
+          appointments,
+          days: updatedDay
         });
       })
   }
@@ -48,12 +96,15 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    const updatedDay = updateSpots({ ...state, appointments }, id);
+
     return axios.delete(`/api/appointments/${id}`)
       .then((res) => {
         console.log(">>>>>>>:", res)
         setState({
           ...state,
-          appointments
+          appointments, 
+          days: updatedDay
         });
       })
   }
